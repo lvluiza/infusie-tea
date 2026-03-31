@@ -1,15 +1,16 @@
-# [Nome do Projeto]
+# Infusie
 
 ## Sobre o Projeto
-**Projeto:** [nome do projeto da lista]
-**Problema que resolve:** [uma frase descrevendo o problema]
+**Projeto:** Infusie
+
+**Problema que resolve:** Dificuldade em escolher uma bebida (chá/infusão) reconfortante e adequada ao humor do usuário no dia a dia.
 
 ## Integrantes
 | Nome | GitHub |
 |------|--------|
-| [Nome 1] | [@usuario1] |
-| [Nome 2] | [@usuario2] |
-| [Nome 3] | [@usuario3] |
+| Luiza Leão | @lvluiza |
+| Gabriela Delgado | @gabrieladelgadosaugo |
+| Guilherme Benossi | @ gguibenossi-boop  |
 
 ## Arquitetura
 > *A ser preenchido na Aula 6*
