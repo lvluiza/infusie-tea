@@ -10,7 +10,7 @@
 |------|--------|
 | Luiza Leão | @lvluiza |
 | Gabriela Delgado | @gabrieladelgadosaugo |
-| Guilherme Benossi | @ gguibenossi-boop  |
+| Guilherme Benossi | @gguibenossi-boop  |
 
 ## Arquitetura
 > *A ser preenchido na Aula 6*
