@@ -15,8 +15,9 @@
 ## Arquitetura
 
 ```mermaid
-flowchart TD ;
-A[Query] --> B[N8N] ;
-B --> C[Gemini IA] ;
-C --> D[Receita] ; 
-```
+flowchart TD 
+A[Query] --> B[N8N] 
+B --> C[Gemini IA] 
+C --> D[Receita] 
+
+
