@@ -13,5 +13,10 @@
 | Guilherme Benossi | @gguibenossi-boop  |
 
 ## Arquitetura
-> *A ser preenchido na Aula 6*
 
+```mermaid
+flowchart TD ;
+A[Query] --> B[N8N] ;
+B --> C[Gemini IA] ;
+C --> D[Receita] ; 
+```
