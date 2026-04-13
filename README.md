@@ -14,11 +14,5 @@
 
 ## Arquitetura
 
-```mermaid
-flowchart TD 
-A[Query] --> B[N8N] 
-B --> C[Gemini IA] 
-C --> D[Receita]
-D --> E[Email]  
 
 
