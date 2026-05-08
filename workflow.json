@@ -23,7 +23,9 @@
       ],
       "id": "1309327a-9c96-43f0-88e7-2eb2cb471ad8",
       "name": "On form submission",
-      "webhookId": "47d8d21b-d495-48b8-9c49-9b665ebae95a"
+      "webhookId": "47d8d21b-d495-48b8-9c49-9b665ebae95a",
+      "retryOnFail": false,
+      "notes": "https://opulent-spoon-97p497gvq95rhpvw9-5678.app.github.dev/"
     },
     {
       "parameters": {
@@ -39,7 +41,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        208,
+        224,
         0
       ],
       "id": "a293a9dc-b398-441e-92f7-1d8d42efde3d",
@@ -78,7 +80,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        416,
+        448,
         0
       ],
       "id": "cbe8825d-b749-453a-a04a-f519213cba2a",
@@ -107,11 +109,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        624,
+        672,
         -96
       ],
       "id": "5e436fcd-e549-4190-8ff3-acad06a1f495",
-      "name": "Edit Fields"
+      "name": "URGÊNCIA"
     },
     {
       "parameters": {
@@ -130,11 +132,38 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        624,
+        672,
         96
       ],
       "id": "47ee89cc-30ea-4fdb-b940-1958b29d6e4c",
-      "name": "Edit Fields1"
+      "name": "SEM URGÊNCIA"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-pro-image-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-pro-image-preview (Nano Banana Pro)"
+        },
+        "prompt": "=Create a cute kawaii pastel illustration in soft digital art style.\n\nStyle:\n2D kawaii sticker illustration, centered composition, soft rounded shapes, thick clean outlines, smooth soft shading, pastel color palette.\n\nColors:\nlight pink, peach, cream, soft brown, pastel green, warm white.\n\nTexture and lighting:\nclean digital texture, soft glow, cozy lighting, dreamy atmosphere, gentle highlights and sparkles.\n\nMood:\ncomforting, relaxing, wholesome, emotionally safe, cute and calming.\n\nComposition:\nmain object centered with small decorative floating elements around it such as stars, leaves, hearts or sparkles.\nSimple pastel background with soft grid or minimal details.\n\nAvoid:\nrealism, dark colors, horror, sadness, sharp edges, dramatic shadows, realistic humans, text.\n\nScene:\n{{ $json.content }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        0
+      ],
+      "id": "6f18aa04-4303-4f40-9750-88915ea34c1b",
+      "name": "Generate an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "gtiNnSCcY9Dd6ORJ",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -165,19 +194,36 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "URGÊNCIA",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Edit Fields1",
+            "node": "SEM URGÊNCIA",
             "type": "main",
             "index": 0
-          },
+          }
+        ]
+      ]
+    },
+    "URGÊNCIA": {
+      "main": [
+        [
           {
-            "node": "Edit Fields",
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEM URGÊNCIA": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
             "type": "main",
             "index": 0
           }
@@ -190,7 +236,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "610e44d2-1efd-4cae-91d1-8ade32b4415c",
+  "versionId": "303b3430-2beb-4b91-aa95-7e936a3e09f4",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b201f4ad1632bb66ee200ca644574148f9ca43be7496c8747e5ac1421aa4599e"
