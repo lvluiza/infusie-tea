@@ -1,0 +1,287 @@
+{
+  "name": "My workflow copy V2 com FRONT END",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n{\n  \"model\": \"llama-3.3-70b-versatile\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": `Age como um especialista da Infusie Tea. Com base no sintoma: ${$('Webhook').first().json.body.mensagem}, escolha o chá MAIS adequado desta lista de chás da API: ${JSON.stringify($('Aggregate').item.json.data)}. REGRAS OBRIGATÓRIAS: 1. Escolha apenas um chá da lista. 2. Use as informações da API como base principal da recomendação. 3. Traduza todo e qualquer nome ou termo para português. 4. Faça uma Receita Simples e uma Receita Avançada. 5.Use muitos emojis, mas suaves relacionados à natureza, chá e ingredientes da receita (ex: 🍵🌿🌸🍯🍋🫖), corações e animais fofos também são considerados. Evite emojis exagerados, médicos, sirenes repetidas, bonequinhos, rostos excessivos ou emojis aleatórios. 6. Se notar perigo nos sintomas do usuário, que possam soar graves ou de risco coloque antes do texto título escrito URGENTE, caso não haja perigo NÃO use de forma alguma a palavra URGENTE e não aborde o assunto.`\n    }\n  ]\n}\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        640,
+        0
+      ],
+      "id": "96080fea-2208-4ae2-81b6-deaa1ae0e512",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "F8H7C2rvMrhBasDK",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9ca2d05d-f9aa-4454-a706-48c353422653",
+              "leftValue": "={{ $json.choices[0].message.content }}",
+              "rightValue": "URGENTE",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        864,
+        0
+      ],
+      "id": "dad0a936-f8a8-4539-8548-0eb544958244",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53a1f989-ff33-40e4-a039-62d10dadda0c",
+              "name": "mensagem_final",
+              "value": "=🚨 ALERTA DE EMERGÊNCIA INFUSIE 🚨  {{ $json.choices[0].message.content }}  📞 AÇÃO IMEDIATA RECOMENDADA: Identificamos que seu caso pode ser grave. Por favor, não espere:      Ligue para o SAMU: 192 🚑      Ou peça para alguém te levar à UPA mais próxima.  Sua saúde é nossa prioridade, deixe o chá para depois! ❤️",
+              "type": "string"
+            },
+            {
+              "id": "8ca08fd0-afe3-4dca-85d3-cd47b0f796cd",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1088,
+        -96
+      ],
+      "id": "15cdfebd-a175-436a-94aa-e82eb3184f6a",
+      "name": "URGÊNCIA"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "317e5ea7-85b2-4142-9986-7f79d8651ebb",
+              "name": "mensagem_final",
+              "value": "=🌿 **INFUSIE TEA - SUA CONSULTA** 🌿  {{ $json.choices[0].message.content }}  --- ✨ Aproveite seu momento!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1088,
+        96
+      ],
+      "id": "1860ed08-ae73-4342-95f2-a2f943c9be5d",
+      "name": "SEM URGÊNCIA"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "infusie-tea",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "39844b91-2218-4300-af66-59cfca918f1b",
+      "name": "Webhook",
+      "webhookId": "9bda44c9-da01-45d9-a142-c89a1464d218"
+    },
+    {
+      "parameters": {
+        "url": "https://theteaapi.site/api/v1/teas.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "f69b8c3b-35c1-4841-8cd7-419d6b097755",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "fromEmail": "Infusie Tea <luizavidalleao10@gmail.com>",
+        "toEmail": "={{ $('Webhook').first().json.body.email }}",
+        "subject": "🌿✨ Sua recomendação personalizada - Infusie Tea",
+        "html": "=<h1>🍵🌸Infusie Tea</h1>\n\n<div style=\"white-space: pre-line; font-family: Arial, sans-serif; line-height: 1.7;\">\n{{\n$json.mensagem_final\n.replace(/^### (.*$)/gim, '<h3>$1</h3>')\n.replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')\n}}\n</div>\n\n<p style=\"margin-top:20px;\">\n🌿 Com carinho,<br>\nInfusie Tea\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1312,
+        0
+      ],
+      "id": "af36d8b8-1f60-4372-828a-b34eb79fbd14",
+      "name": "Send an Email",
+      "webhookId": "fe22a13b-5868-497d-96c3-12bcd28ab814",
+      "credentials": {
+        "smtp": {
+          "id": "4ZT1QshXkf5xBJFC",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "name, description, category, ingredients",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "ec20f3dd-9692-4cb4-825a-02a9fcc82f1f",
+      "name": "Aggregate"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "URGÊNCIA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SEM URGÊNCIA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "URGÊNCIA": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEM URGÊNCIA": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a3c20f7b-c205-4d04-a304-64c16c090e04",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b201f4ad1632bb66ee200ca644574148f9ca43be7496c8747e5ac1421aa4599e"
+  },
+  "id": "nYG1Gj2QqHxVf7Yj",
+  "tags": []
+}
